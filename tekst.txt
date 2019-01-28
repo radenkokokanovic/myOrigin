@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php 
 
 	$servername = "localhost";
@@ -23,3 +24,10 @@
 
 
  ?>
+=======
+drugi branch 
+drugi branch testiranje 
+ojsakdjad
+aosrkaorsks
+dasodkok
+>>>>>>> b4c79b3bc61668d3138d4458692b5e680058f2f8
