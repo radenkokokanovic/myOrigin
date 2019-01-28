@@ -1,10 +1,112 @@
-one 
-two 
-thee (from master) 
-three (from second-branch) 
-four test
-masterBranch
-developing
-developing
-developing
-hello github
+<?php  
+
+include ("dbg.php");
+include ("Person.php");
+include ("createXML.php");
+include ("createJson.php");
+
+$person=new Person();
+
+
+if(isset($_POST['submit'])) {
+
+	$person->setIme($_POST['ime']);
+	$person->setPrezime($_POST['prezime']);
+	$person->setAdresa($_POST['adresa']);
+	$person->setGodine($_POST['godine']);
+	$person->setPlata($_POST['plata']);
+	$person->setZanimanje($_POST['zanimanje']);
+	$person->__setVjestine($_POST['vjestine']);
+
+	$sql = "INSERT INTO radnici (ime, prezime, adresa, godine, zanimanje, plata, vjestine)
+	VALUES ('{$person->getIme()}', '{$person->getPrezime()}', '{$person->getAdresa()}', '{$person->getGodine()}', '{$person->getPlata()}', '{$person->getZanimanje()}', '{$person->__getVjestine()}')";
+
+	if ($conn->query($sql) === TRUE) {
+	    echo "New record created successfully";
+	} else {
+	    echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+
+	$conn->close();
+	
+
+}
+
+
+
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>naslov</title>
+</head>
+<body>
+
+	<form method="POST" action="index.php"> 
+		
+		<input type="text" name="ime" placeholder="Unesite ime">
+		<input type="text" name="prezime" placeholder="Unesite prezime">
+		<input type="text" name="adresa" placeholder="Unesite adresu">
+		<input type="text" name="godine" placeholder="Unesite godine">
+		<input type="text" name="zanimanje" placeholder="Unesite zanimanje">
+		<input type="number" name="plata" placeholder="Unesite platu">
+		<input type="text" name="vjestine" placeholder="Unesite vjestine">
+
+		<input type="submit" name="submit" value="Unesi">
+
+	</form>
+
+</body>
+</html>
+
+
+<?php 
+
+
+$niz=array("Java","C#","HTML","CSS","JavaScript");
+$person->__setVjestine($niz);
+
+//echo sizeof($niz);
+
+echo "Duzina niza je =>".sizeof($person->__getVjestine());
+
+
+ echo json_encode($person);
+
+print_r($person->__getVjestine());
+
+
+echo "Log file written";
+//echo "Niz vjestina ".$person->__getVjestine(); 
+
+wh_log($person->__getVjestine()); 
+
+function wh_log($log_msg)
+{
+    $log_filename = "log";
+    if (!file_exists($log_filename)) 
+    {
+        // create directory/folder uploads.
+        mkdir($log_filename, 0777, true);
+
+    }
+    $log_file_data = $log_filename.'/log_' . date('d-M-Y') . '.log';
+    $arrlength=count($log_msg);
+    for($x=0;$x<$arrlength;$x++)
+	  {
+	  file_put_contents($log_file_data, $log_msg[$x] . "\n", FILE_APPEND);
+	  }
+    
+}
+
+
+
+createJson(json_encode($person));
+  
+
+echo "Creiran xml file ";
+createXML($person);
+
+?>
